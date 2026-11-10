@@ -16,7 +16,7 @@ npm run dev        # site http://localhost:5173   api http://localhost:5001
 **Account**.
 
 ## The admin (`/admin`)
-| Section | What she can do |
+| Section | What admin can do |
 |---|---|
 | Website text & cover | Name, email, cover photo and quote, about text and photo, nursing section, every heading, scrolling words, **social links**, footer, Google title/description |
 | Stories | Write, edit, hide (draft) or delete stories, with a cover photo |
