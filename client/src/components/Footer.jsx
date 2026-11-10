@@ -14,7 +14,12 @@ export default function Footer() {
           ))}
           <a href={`mailto:${brand.email}`}>Email ↗</a>
         </div>
-        <small>© {new Date().getFullYear()} {brand.name.toUpperCase()}</small>
+      </div>
+      <div className="footer__bar">
+        <div className="wrap footer__bar-in">
+          <span>© {new Date().getFullYear()} {brand.name}. All rights reserved.</span>
+          <span>Developed by <strong>Abdulrasheed Yusuf</strong></span>
+        </div>
       </div>
     </footer>
   );
