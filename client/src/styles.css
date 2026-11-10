@@ -70,6 +70,7 @@ button, input, textarea { font: inherit; color: inherit; }
 .nav .nav__cta { padding: 10px 20px; border: 1.5px solid currentColor; border-radius: 999px; }
 .nav--solid .nav__cta { background: var(--magenta); border-color: var(--magenta); color: #fff; }
 .nav--solid .nav__cta:hover { background: var(--plum); border-color: var(--plum); color: #fff; }
+.nav--solid .nav__links a.nav__cta, .nav--solid .nav__links a.nav__cta:hover { color: #fff; }
 .nav__toggle { display: none; }
 .cover {
   position: relative;

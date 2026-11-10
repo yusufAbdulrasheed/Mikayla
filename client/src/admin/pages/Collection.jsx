@@ -1,11 +1,12 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { adminApi, uploadFile } from '../../lib/api.js';
 import { collectionsConfig } from '../configs.js';
-import { FieldRenderer, useToast } from '../ui.jsx';
+import { FieldRenderer, useConfirm, useToast } from '../ui.jsx';
 
 export default function Collection({ colKey }) {
   const cfg = collectionsConfig[colKey];
   const toast = useToast();
+  const confirm = useConfirm();
   const [items, setItems] = useState(null);
   const [editing, setEditing] = useState(null);
   const [busy, setBusy] = useState(false);
@@ -38,7 +39,7 @@ export default function Collection({ colKey }) {
   }
 
   async function remove(item) {
-    if (!window.confirm(`Delete “${cfg.name(item)}”? This can’t be undone.`)) return;
+    if (!(await confirm({ title: `Delete “${cfg.name(item)}”?`, message: 'This can’t be undone.', confirmLabel: 'Delete' }))) return;
     try { await adminApi.remove(colKey, item.id); toast('Deleted'); load(); } catch (e) { toast(e.message, 'err'); }
   }
 

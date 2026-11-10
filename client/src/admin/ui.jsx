@@ -2,20 +2,63 @@ import { createContext, useCallback, useContext, useEffect, useRef, useState } f
 import { adminApi, uploadFile } from '../lib/api.js';
 
 const ToastCtx = createContext(() => {});
+const ConfirmCtx = createContext(async () => false);
 export const useToast = () => useContext(ToastCtx);
+export const useConfirm = () => useContext(ConfirmCtx);
+
+function ConfirmDialog({ title, message, confirmLabel = 'Delete', cancelLabel = 'Cancel', onClose }) {
+  const cancel = useRef();
+  useEffect(() => {
+    cancel.current?.focus();
+    const onKey = (e) => { if (e.key === 'Escape') onClose(false); };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [onClose]);
+  return (
+    <div className="adm-confirm-back" onMouseDown={(e) => e.target === e.currentTarget && onClose(false)}>
+      <div className="adm-confirm" role="alertdialog" aria-modal="true" aria-labelledby="adm-confirm-title" aria-describedby="adm-confirm-text">
+        <h2 id="adm-confirm-title">{title}</h2>
+        {message && <p id="adm-confirm-text">{message}</p>}
+        <div className="adm-confirm__actions">
+          <button type="button" ref={cancel} className="adm-confirm__no" onClick={() => onClose(false)}>{cancelLabel}</button>
+          <button type="button" className="adm-confirm__yes" onClick={() => onClose(true)}>{confirmLabel}</button>
+        </div>
+      </div>
+    </div>
+  );
+}
 
 export function ToastProvider({ children }) {
   const [toast, setToast] = useState(null);
+  const [ask, setAsk] = useState(null);
   const timer = useRef();
+  const pending = useRef(null);
+
   const show = useCallback((msg, type = 'ok') => {
     clearTimeout(timer.current);
     setToast({ msg, type });
     timer.current = setTimeout(() => setToast(null), 4500);
   }, []);
+
+  const confirm = useCallback((options) => new Promise((resolve) => {
+    pending.current = resolve;
+    setAsk(options);
+  }), []);
+  const answer = useCallback((value) => {
+    pending.current?.(value);
+    pending.current = null;
+    setAsk(null);
+  }, []);
+
   return (
     <ToastCtx.Provider value={show}>
-      {children}
-      {toast && <div className={`adm-toast adm-toast--${toast.type}`} role="status">{toast.msg}</div>}
+      <ConfirmCtx.Provider value={confirm}>
+        {children}
+        <div className="adm-layer">
+          {toast && <div className={`adm-toast adm-toast--${toast.type}`} role={toast.type === 'err' ? 'alert' : 'status'}>{toast.msg}</div>}
+          {ask && <ConfirmDialog {...ask} onClose={answer} />}
+        </div>
+      </ConfirmCtx.Provider>
     </ToastCtx.Provider>
   );
 }

@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { adminApi, uploadFile } from '../../lib/api.js';
-import { StorageNote, mb, useToast } from '../ui.jsx';
+import { StorageNote, mb, useConfirm, useToast } from '../ui.jsx';
 
 const FILTERS = [['all', 'All'], ['image', 'Photos'], ['video', 'Videos'], ['doc', 'Books & files']];
 const guessKind = (file) => (file.type.startsWith('video/') ? 'video' : file.type.startsWith('image/') ? 'image' : 'doc');
@@ -9,6 +9,7 @@ const niceName = (name) => name.replace(/^[a-z0-9]+-[a-f0-9]{6,8}-/, '');
 
 export default function Media() {
   const toast = useToast();
+  const confirm = useConfirm();
   const input = useRef();
   const [files, setFiles] = useState(null);
   const [error, setError] = useState('');
@@ -30,8 +31,8 @@ export default function Media() {
   }
 
   async function remove(f) {
-    const warn = f.inUse ? 'This file is used on your website. Deleting it will leave a gap there.\n\n' : '';
-    if (!window.confirm(`${warn}Delete this file permanently?`)) return;
+    const message = f.inUse ? 'This file is used on your website. Deleting it will leave a gap there.' : 'It will be removed permanently.';
+    if (!(await confirm({ title: 'Delete this file?', message, confirmLabel: 'Delete' }))) return;
     try { await adminApi.removeMedia(f.kind, f.id); toast('Deleted'); load(); } catch (err) { toast(err.message, 'err'); }
   }
 

@@ -1,11 +1,12 @@
 import { useEffect, useState } from 'react';
 import { adminApi } from '../../lib/api.js';
-import { useToast } from '../ui.jsx';
+import { useConfirm, useToast } from '../ui.jsx';
 
 const when = (m) => new Date(m.sentAt || m.createdAt).toLocaleString('en-GB', { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' });
 
 export default function Messages({ onChange }) {
   const toast = useToast();
+  const confirm = useConfirm();
   const [items, setItems] = useState(null);
   const [open, setOpen] = useState(null);
 
@@ -22,7 +23,7 @@ export default function Messages({ onChange }) {
     }
   }
   async function remove(m) {
-    if (!window.confirm(`Delete the message from ${m.name}?`)) return;
+    if (!(await confirm({ title: `Delete the message from ${m.name}?`, message: 'This can’t be undone.', confirmLabel: 'Delete' }))) return;
     await adminApi.removeMessage(m.id).catch((e) => toast(e.message, 'err'));
     load();
     onChange?.();

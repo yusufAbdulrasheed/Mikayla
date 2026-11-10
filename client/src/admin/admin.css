@@ -169,9 +169,6 @@ body:has(.adm) { background: var(--a-bg); }
 .adm-note--ok { background: #e4f5ec; color: #1f6b46; }
 .adm-note--warn { background: #fff3cd; color: #6b4e00; }
 .adm-note--bad { background: #fde8e6; color: var(--a-danger); }
-.adm-toast { position: fixed; z-index: 300; left: 50%; bottom: 28px; transform: translateX(-50%); max-width: calc(100vw - 32px); padding: 13px 22px; border-radius: 14px; background: var(--a-plum); color: #fff; font-weight: 600; box-shadow: 0 18px 40px rgba(0, 0, 0, .3); animation: adm-pop .3s cubic-bezier(.16, 1, .3, 1); }
-.adm-toast--err { background: var(--a-danger); }
-@keyframes adm-pop { from { opacity: 0; transform: translate(-50%, 12px); } }
 @media (max-width: 860px) {
   .adm-shell { grid-template-columns: 1fr; }
   .adm-topbar { position: sticky; top: 0; z-index: 40; display: flex; align-items: center; gap: 12px; padding: 10px 16px; background: var(--a-plum); color: #fff; }
@@ -194,3 +191,33 @@ body:has(.adm) { background: var(--a-bg); }
 }
 @media (min-width: 861px) { .adm-burger { display: none; } }
 @media (prefers-reduced-motion: reduce) { .adm *, .adm-toast { animation: none !important; transition: none !important; } }
+
+.adm-layer {
+  --pop-hero: radial-gradient(ellipse 70% 130% at 0% 0%, rgba(74, 14, 46, .5), transparent 70%), radial-gradient(ellipse 60% 110% at 100% 100%, rgba(255, 140, 200, .38), transparent 70%), #b80f6b;
+  --pop-deep: radial-gradient(ellipse 70% 130% at 0% 0%, rgba(42, 10, 28, .55), transparent 70%), radial-gradient(ellipse 60% 110% at 100% 100%, rgba(255, 140, 200, .3), transparent 70%), #8f0a52;
+  font-family: 'DM Sans', system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+.adm-layer *, .adm-layer *::before, .adm-layer *::after { box-sizing: border-box; }
+.adm-layer button { font: inherit; }
+
+.adm-toast { position: fixed; z-index: 600; top: 22px; left: 50%; transform: translateX(-50%); display: flex; align-items: center; gap: 12px; width: max-content; max-width: min(560px, calc(100vw - 32px)); padding: 15px 24px; border: 1px solid rgba(255, 255, 255, .4); border-radius: 16px; background: var(--pop-hero); color: #fff; font-size: 15px; font-weight: 600; line-height: 1.4; box-shadow: 0 22px 50px -12px rgba(143, 10, 82, .7), 0 0 0 4px rgba(255, 255, 255, .12); animation: adm-pop .35s cubic-bezier(.16, 1, .3, 1); }
+.adm-toast--err { background: var(--pop-deep); }
+.adm-toast--err::before { content: '!'; flex: none; display: grid; place-items: center; width: 24px; height: 24px; border-radius: 50%; background: #fff; color: #8f0a52; font-size: 15px; font-weight: 800; }
+@keyframes adm-pop { from { opacity: 0; transform: translate(-50%, -16px) scale(.96); } }
+
+.adm-confirm-back { position: fixed; z-index: 550; inset: 0; display: grid; place-items: center; padding: 16px; background: rgba(42, 10, 28, .62); backdrop-filter: blur(3px); animation: adm-fade .2s; }
+.adm-confirm { width: min(440px, 100%); padding: 30px 28px 24px; border: 1px solid rgba(255, 255, 255, .4); border-radius: 22px; background: var(--pop-hero); color: #fff; box-shadow: 0 34px 70px -16px rgba(0, 0, 0, .55); animation: adm-confirm-in .3s cubic-bezier(.16, 1, .3, 1); }
+.adm-confirm h2 { margin: 0 0 8px; font-family: 'Bodoni Moda', Georgia, serif; font-size: 26px; font-weight: 600; line-height: 1.15; letter-spacing: -.01em; }
+.adm-confirm p { margin: 0; font-size: 15px; line-height: 1.5; color: rgba(255, 255, 255, .88); }
+.adm-confirm__actions { display: flex; justify-content: flex-end; gap: 10px; margin-top: 24px; }
+.adm-confirm__no, .adm-confirm__yes { min-height: 46px; padding: 0 24px; border-radius: 12px; font-size: 15px; font-weight: 700; cursor: pointer; transition: background .2s, color .2s, transform .15s; }
+.adm-confirm__no { border: 1.5px solid rgba(255, 255, 255, .7); background: transparent; color: #fff; }
+.adm-confirm__no:hover { background: rgba(255, 255, 255, .16); }
+.adm-confirm__yes { border: 1.5px solid #fff; background: #fff; color: #8f0a52; }
+.adm-confirm__yes:hover { background: #2a0a1c; border-color: #2a0a1c; color: #fff; }
+.adm-confirm__no:active, .adm-confirm__yes:active { transform: translateY(1px); }
+.adm-confirm button:focus-visible { outline: 3px solid #fff; outline-offset: 3px; }
+@keyframes adm-confirm-in { from { opacity: 0; transform: translateY(14px) scale(.96); } }
+@media (max-width: 480px) { .adm-confirm__actions { flex-direction: column-reverse; } .adm-confirm__no, .adm-confirm__yes { width: 100%; } .adm-toast { top: 14px; } }
+@media (prefers-reduced-motion: reduce) { .adm-toast, .adm-confirm, .adm-confirm-back { animation: none !important; } }
