@@ -1,0 +1,33 @@
+# Render "Blueprint": describes the backend so it can be created in one click (Render > New > Blueprint).
+# You can also create the service by hand; the dashboard values are in DEPLOY.md.
+services:
+  - type: web
+    name: mikayla-api
+    runtime: node
+    plan: free
+    rootDir: server
+    buildCommand: npm install
+    startCommand: npm start
+    healthCheckPath: /api/health
+    autoDeploy: true
+    envVars:
+      - key: NODE_VERSION
+        value: "22"
+      - key: NODE_ENV
+        value: production
+      # Keeps the free service awake by having it request its own public address every 10 minutes (server/src/keepAlive.js).
+      # Delete this variable if you move to a paid plan.
+      - key: KEEP_ALIVE
+        value: "true"
+      # Generated once by Render and kept (keeps admin logins valid across restarts and deploys).
+      - key: SESSION_SECRET
+        generateValue: true
+      # Fill these in on the Render dashboard (they are secrets, so they are NOT stored in this file).
+      - key: ADMIN_PASSWORD
+        sync: false
+      - key: MONGODB_URI
+        sync: false
+      - key: CLOUDINARY_URL
+        sync: false
+      - key: CLIENT_ORIGIN
+        sync: false

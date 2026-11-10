@@ -1,0 +1,158 @@
+// Starter content. It is copied into the store the first time each collection is read,
+// after which everything is edited from /admin.
+
+const img = (id, w = 1000) => `https://images.unsplash.com/${id}?auto=format&fit=crop&w=${w}&q=80`;
+
+export const defaultSettings = {
+  brand: { name: 'Mikayla Barigboma', first: 'Mikayla', email: 'hello@yourwebsite.com' },
+  seo: {
+    title: 'Mikayla Barigboma — Creator, Writer & Nurse',
+    description: 'Mikayla Barigboma: brand content creator, writer and nurse. Stories, video and care.',
+  },
+  social: [
+    { platform: 'Instagram', url: 'https://www.instagram.com/' },
+    { platform: 'TikTok', url: 'https://www.tiktok.com/' },
+  ],
+  hero: {
+    issue: 'Nº 01',
+    date: 'November 2026',
+    label: 'The Creator Edit',
+    mast: 'MIKAYLA',
+    tag: 'Brand content creator · Writer · Nurse',
+    photo: img('photo-1534528741775-53994a69daeb', 1100),
+    quote: 'A softer life.\nA fuller story.',
+    badge: 'Free\nto read',
+    ctaLabel: 'Book a collab',
+    leftLines: [
+      { k: 'The Creator', t: 'Brand stories that actually feel like someone' },
+      { k: 'The Writer', t: 'Essays on softness, grit & growing up' },
+    ],
+    rightLines: [
+      { k: 'The Nurse', t: 'Twelve-hour shifts, one big heart' },
+      { k: 'Inside', t: 'The everyday, made editorial' },
+    ],
+  },
+  marquee: ['Content Creator', 'Writer', 'Nurse', 'Storyteller', 'Brand Voice', 'Video', 'Care'],
+  about: {
+    kicker: '01 — Editor’s letter',
+    heading: 'Hi, I’m Mikayla.',
+    emphasis: 'Care comes naturally.',
+    body: 'By day I show up for people as a nurse. By choice, I’m a brand content creator and writer, turning real stories into video and words people actually feel.\n\nThree hats, one thread: pay attention, be kind, tell the truth beautifully.',
+    photo: img('photo-1517841905240-472988babdf9', 900),
+    stamp: 'The person\nbehind the pages',
+    stats: [
+      { value: '3', label: 'Hats worn daily' },
+      { value: '∞', label: 'Cups of coffee' },
+      { value: '1', label: 'Big heart' },
+    ],
+  },
+  work: { kicker: '02 — Work with me', heading: 'Content with', emphasis: 'intention.' },
+  writing: { kicker: '03 — The writing', heading: 'Somewhere between', emphasis: 'the lines.' },
+  videos: { kicker: '04 — On camera', heading: 'Content in', emphasis: 'motion.' },
+  moments: { kicker: '05 — The art of everyday', heading: 'A life, in', emphasis: 'little moments.' },
+  books: { kicker: '06 — On the shelf', heading: 'Books &', emphasis: 'reading.' },
+  nursing: {
+    kicker: '07 — The work that grounds me',
+    heading: 'A career in',
+    emphasis: 'showing up.',
+    body: 'Nursing keeps me close to what matters: listening, meeting people where they are, and never taking the ordinary for granted. I carry a little of that care into everything I make.',
+    photo: img('photo-1576091160399-112ba8d25d1d', 1000),
+    label: '♥ People before anything',
+    ctaLabel: 'Say hello',
+  },
+  contact: {
+    kicker: 'Good things start with a hello',
+    heading: 'Let’s make something',
+    emphasis: 'meaningful.',
+    text: 'Brand collab, writing project, or just saying hi. Tell me a little about it.',
+  },
+  footer: { note: 'Made with care, and a little bit of coffee.' },
+};
+
+export const defaultCollections = {
+  posts: [
+    {
+      slug: 'what-nursing-taught-me-about-listening',
+      title: 'What nursing taught me about listening',
+      excerpt: 'Twelve-hour shifts, a hundred small conversations, and the quiet art of really hearing someone.',
+      category: 'Essay',
+      cover: img('photo-1576091160399-112ba8d25d1d'),
+      readTime: 5,
+      featured: true,
+      published: true,
+      publishedAt: '2026-10-12',
+      body: [
+        'Nobody tells you that most of nursing is listening. The charts matter, the vitals matter, but the thing that changes a patient’s night is usually someone sitting down for a minute.',
+        'I learned to hear what sits underneath the question. "Is it going to hurt?" is rarely about the needle.',
+        'That habit followed me home. It is in how I write, how I make content, and how I try to show up for the people I love.',
+      ],
+    },
+    {
+      slug: 'the-soft-life-is-a-practice',
+      title: 'The soft life is a practice, not a purchase',
+      excerpt: 'On slow mornings, boundaries, and building a life that does not need to be performed.',
+      category: 'Lifestyle',
+      cover: img('photo-1495474472287-4d71bcdd2085'),
+      readTime: 4,
+      published: true,
+      publishedAt: '2026-09-28',
+      body: [
+        'Softness gets sold to us as an aesthetic. Candles, linen, a very specific latte. But the real thing is quieter.',
+        'It is saying no without a speech. It is eating lunch sitting down. It is leaving the phone in another room for one hour.',
+      ],
+    },
+    {
+      slug: 'behind-the-lens-making-content-with-intention',
+      title: 'Behind the lens: making content with intention',
+      excerpt: 'How I plan, shoot and edit video that feels like a brand and not a billboard.',
+      category: 'Creator Notes',
+      cover: img('photo-1516035069371-29a1b244cc32'),
+      readTime: 6,
+      published: true,
+      publishedAt: '2026-09-10',
+      body: [
+        'Good brand content starts with one honest question: what does this audience actually need to feel?',
+        'From there it is storyboard, light, sound, and a ruthless edit. The best compliment I get is "it felt like you made it just for us".',
+      ],
+    },
+    {
+      slug: 'notes-on-becoming',
+      title: 'Notes on becoming',
+      excerpt: 'A collection in progress about growing pains, tender moments, and the small things that mean everything.',
+      category: 'Writing',
+      cover: img('photo-1455390582262-044cdead277a'),
+      readTime: 3,
+      published: true,
+      publishedAt: '2026-08-21',
+      body: ['There is a story in the middle of every ordinary day. This is where I am collecting them.', 'More soon.'],
+    },
+  ],
+  services: [
+    { title: 'Brand Content Creation', blurb: 'Scroll-stopping video and visuals shaped around your brand voice.', icon: '01' },
+    { title: 'Video Content', blurb: 'Concept, shoot and edit for reels, ads and campaign storytelling.', icon: '02' },
+    { title: 'Writing & Copy', blurb: 'Essays, captions and long-form pieces with real warmth and clarity.', icon: '03' },
+    { title: 'Health & Wellness Voice', blurb: 'Accurate, kind, nurse-reviewed content for care and wellness brands.', icon: '04' },
+  ],
+  gallery: [
+    { src: img('photo-1490750967868-88aa4486c946', 800), alt: 'Fresh flowers in soft light', caption: 'A reason to bring home flowers', published: true },
+    { src: img('photo-1516035069371-29a1b244cc32', 800), alt: 'Camera on a shoot', caption: 'On set, behind the lens', published: true },
+    { src: img('photo-1495474472287-4d71bcdd2085', 800), alt: 'Morning coffee', caption: 'The first cup, no rush', published: true },
+    { src: img('photo-1470252649378-9c29740c9fa8', 800), alt: 'Golden light over a field', caption: 'Taking the scenic route', published: true },
+  ],
+  videos: [],
+  books: [
+    {
+      title: 'Notes on Becoming',
+      subtitle: 'A collection of thoughts on a writing life in progress',
+      description: 'Essays on growing pains, tender moments and the small things that turn out to mean everything.',
+      cover: '',
+      status: 'coming-soon',
+      buyUrl: '',
+      file: '',
+      fileLabel: '',
+      year: '',
+      published: false,
+    },
+  ],
+  messages: [],
+};

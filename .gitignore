@@ -1,0 +1,11 @@
+node_modules
+client/dist
+server/.env
+server/data
+server/uploads
+client/.env
+client/.env.local
+client/.env.*.local
+.vercel
+.playwright-mcp
+*.log
