@@ -3,6 +3,9 @@
 
 const img = (id, w = 1000) => `https://images.unsplash.com/${id}?auto=format&fit=crop&w=${w}&q=80`;
 
+const emptyMetrics = () => ({ views: 0, likes: 0, comments: 0, gained: 0 });
+const emptyRange = () => ({ instagram: emptyMetrics(), tiktok: emptyMetrics(), x: emptyMetrics(), medium: emptyMetrics() });
+
 export const defaultSettings = {
   brand: { name: 'Mikayla Barigboma', first: 'Mikayla', email: 'hello@yourwebsite.com' },
   seo: {
@@ -51,6 +54,19 @@ export const defaultSettings = {
   videos: { kicker: '04 — On camera', heading: 'Content in', emphasis: 'motion.' },
   moments: { kicker: '05 — The art of everyday', heading: 'A life, in', emphasis: 'little moments.' },
   books: { kicker: '06 — On the shelf', heading: 'Books &', emphasis: 'reading.' },
+  reviews: { kicker: 'Book reviews', heading: 'Books I’ve', emphasis: 'read & reviewed.' },
+  analytics: {
+    show: true,
+    kicker: 'By the numbers',
+    heading: 'My reach,',
+    emphasis: 'across the internet.',
+    period: 'Last 30 days',
+    instagram: { handle: '', followers: 0 },
+    tiktok: { handle: '', followers: 0 },
+    x: { handle: '', followers: 0 },
+    medium: { handle: '', followers: 0 },
+    ranges: { d7: emptyRange(), d30: emptyRange(), d90: emptyRange(), y1: emptyRange() },
+  },
   nursing: {
     kicker: '07 — The work that grounds me',
     heading: 'A career in',
@@ -70,6 +86,7 @@ export const defaultSettings = {
 };
 
 export const defaultCollections = {
+  reviews: [],
   posts: [
     {
       slug: 'what-nursing-taught-me-about-listening',

@@ -10,6 +10,8 @@ const tiles = [
   { to: 'photos', icon: '▣', title: 'Photos', text: 'Add and caption your gallery photos.', stat: 'gallery', label: 'photos' },
   { to: 'videos', icon: '▶', title: 'Videos', text: 'Upload videos or link YouTube and Vimeo.', stat: 'videos', label: 'videos' },
   { to: 'books', icon: '❡', title: 'Books', text: 'Covers, buy links and downloadable PDFs.', stat: 'books', label: 'books' },
+  { to: 'reviews', icon: '★', title: 'Book reviews', text: 'Log every book you have reviewed, with ratings.', stat: 'reviews', label: 'reviews' },
+  { to: 'analytics', icon: '◔', title: 'Social analytics', text: 'Followers, views, likes and comments for Instagram, TikTok, X and Medium.' },
   { to: 'services', icon: '✧', title: 'Services', text: 'What brands can hire you for.', stat: 'services', label: 'services' },
 ];
 

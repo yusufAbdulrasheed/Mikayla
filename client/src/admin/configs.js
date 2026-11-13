@@ -88,6 +88,33 @@ export const collectionsConfig = {
       { key: 'published', label: 'Show on the website', type: 'bool', help: 'Turn off to hide it until you’re ready.' },
     ],
   },
+  reviews: {
+    path: 'reviews', title: 'Book reviews', singular: 'review', icon: '★',
+    intro: 'Every book you have reviewed. Add the cover, a star rating and your thoughts. Newest reviews show first on the website.',
+    sortable: false,
+    thumb: (i) => i.cover,
+    name: (i) => i.title,
+    sub: (i) => `${i.author ? `${i.author} · ` : ''}${'★'.repeat(i.rating || 0)}${'☆'.repeat(5 - (i.rating || 0))} · ${i.reviewedAt || ''}`,
+    blank: () => ({ title: '', author: '', cover: '', rating: 5, genre: '', reviewedAt: today(), verdict: '', review: '', reviewUrl: '', published: true }),
+    fields: [
+      { key: 'title', label: 'Book title', max: 160 },
+      { key: 'author', label: 'Author', max: 120 },
+      { key: 'cover', label: 'Book cover', type: 'image' },
+      {
+        key: 'rating', label: 'Your rating', type: 'select',
+        options: [
+          { value: 5, label: '★★★★★  5 — Loved it' }, { value: 4, label: '★★★★☆  4 — Really good' }, { value: 3, label: '★★★☆☆  3 — It was okay' },
+          { value: 2, label: '★★☆☆☆  2 — Not for me' }, { value: 1, label: '★☆☆☆☆  1 — Did not like it' },
+        ],
+      },
+      { key: 'genre', label: 'Genre', max: 60, placeholder: 'Romance, Memoir, Fantasy…' },
+      { key: 'reviewedAt', label: 'Date reviewed', type: 'date' },
+      { key: 'verdict', label: 'One-line verdict', max: 180, help: 'A short, quotable line shown on the card.' },
+      { key: 'review', label: 'Your full review', type: 'paras', rows: 10, help: 'Optional. Visitors can open it from the card. Leave a blank line between paragraphs.' },
+      { key: 'reviewUrl', label: 'Link to the review', type: 'link', help: 'Optional. Where the review lives, such as Medium, YouTube, Goodreads or Instagram.' },
+      { key: 'published', label: 'Show on the website', type: 'bool' },
+    ],
+  },
 };
 
 const heading = (p, label) => [
@@ -95,6 +122,9 @@ const heading = (p, label) => [
   { path: `${p}.heading`, label: `${label}: heading`, max: 120 },
   { path: `${p}.emphasis`, label: `${label}: highlighted words`, max: 120, help: 'Shown in italic pink after the heading.' },
 ];
+
+const RANGES = [['d7', 'Last 7 days'], ['d30', 'Last 30 days'], ['d90', 'Last 90 days'], ['y1', 'Last 12 months']];
+const PLATFORMS = [['instagram', 'Instagram'], ['tiktok', 'TikTok'], ['x', 'X (Twitter)'], ['medium', 'Medium']];
 
 export const settingsTabs = [
   {
@@ -140,6 +170,23 @@ export const settingsTabs = [
     ],
   },
   {
+    id: 'analytics', label: 'Social analytics',
+    fields: [
+      { path: 'analytics.show', label: 'Show the analytics section on the website', type: 'bool', help: 'It only appears once at least one number is above zero.' },
+      ...PLATFORMS.flatMap(([id, name]) => [
+        { path: `h.${id}`, label: name, type: 'heading' },
+        { path: `analytics.${id}.handle`, label: `${name} username`, max: 60, placeholder: '@yourname' },
+        { path: `analytics.${id}.followers`, label: 'Followers right now', type: 'number' },
+      ]),
+      { path: 'h.ranges', label: 'Numbers for each time period', type: 'heading' },
+      ...RANGES.map(([id, name]) => ({
+        path: `analytics.ranges.${id}`, label: name, type: 'metrics', platforms: PLATFORMS,
+        help: id === 'd7' ? 'Copy these from each app’s analytics page for the same dates. Leave a whole period at zero to hide it from visitors.' : undefined,
+      })),
+      ...heading('analytics', 'Analytics'),
+    ],
+  },
+  {
     id: 'nursing', label: 'Nursing section',
     fields: [
       ...heading('nursing', 'Nursing'),
@@ -157,6 +204,7 @@ export const settingsTabs = [
       ...heading('videos', 'Videos'),
       ...heading('moments', 'Photos'),
       ...heading('books', 'Books'),
+      ...heading('reviews', 'Book reviews'),
       { path: 'marquee', label: 'Scrolling words (one per line)', type: 'lines', rows: 7, help: 'The moving strip under the cover.' },
     ],
   },

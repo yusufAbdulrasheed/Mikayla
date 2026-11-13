@@ -5,7 +5,7 @@ import * as store from './store.js';
 import { storage } from './storage/index.js';
 
 const LOCAL = /^\/uploads\/(image|video|doc)\/([\w.-]+)$/;
-const COLLECTIONS = ['posts', 'services', 'gallery', 'videos', 'books'];
+const COLLECTIONS = ['posts', 'services', 'gallery', 'videos', 'books', 'reviews'];
 const META = new Set(['id', 'order', 'createdAt', 'updatedAt']);
 
 function collect(value, out) {

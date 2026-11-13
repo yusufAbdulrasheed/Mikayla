@@ -266,12 +266,40 @@ export function Repeater({ label, help, items = [], onChange, fields, max = 20, 
   );
 }
 
+const METRIC_COLS = [['views', 'Views'], ['likes', 'Likes'], ['comments', 'Comments'], ['gained', 'New followers']];
+
+export function MetricsTable({ label, help, value, onChange, platforms }) {
+  const set = (p, k, v) => onChange({ ...value, [p]: { ...(value?.[p] || {}), [k]: v === '' ? '' : Number(v) } });
+  return (
+    <div className="adm-field">
+      <span className="adm-label">{label}</span>
+      {help && <small className="adm-help adm-help--top">{help}</small>}
+      <div className="adm-metrics">
+        <div className="adm-metrics__row adm-metrics__row--head">
+          <span />
+          {METRIC_COLS.map(([k, name]) => (<b key={k}>{name}</b>))}
+        </div>
+        {platforms.map(([id, name]) => (
+          <div className="adm-metrics__row" key={id}>
+            <span className="adm-metrics__name">{name}</span>
+            {METRIC_COLS.map(([k, col]) => (
+              <input key={k} type="number" inputMode="numeric" aria-label={`${name} ${col}, ${label}`} placeholder="0" value={value?.[id]?.[k] ?? ''} onChange={(e) => set(id, k, e.target.value)} />
+            ))}
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 export function FieldRenderer({ field, value, onChange }) {
   const common = { label: field.label, help: field.help };
   switch (field.type) {
     case 'textarea': return <Area {...common} value={value} onChange={onChange} rows={field.rows || 4} max={field.max} placeholder={field.placeholder} />;
     case 'paras': return <Area {...common} value={Array.isArray(value) ? value.join('\n\n') : value} onChange={onChange} rows={field.rows || 12} placeholder={field.placeholder} />;
     case 'lines': return <Area {...common} value={Array.isArray(value) ? value.join('\n') : value} onChange={(v) => onChange(v.split('\n'))} rows={field.rows || 5} placeholder={field.placeholder} />;
+    case 'metrics': return <MetricsTable {...common} value={value} onChange={onChange} platforms={field.platforms} />;
+    case 'heading': return <h3 className="adm-subhead">{field.label}</h3>;
     case 'number': return <Text {...common} type="number" value={value} onChange={(v) => onChange(v === '' ? '' : Number(v))} />;
     case 'date': return <Text {...common} type="date" value={value} onChange={onChange} />;
     case 'bool': return <Toggle {...common} value={value} onChange={onChange} />;

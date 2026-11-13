@@ -4,27 +4,32 @@ import Hero from '../components/Hero.jsx';
 import PostCard from '../components/PostCard.jsx';
 import VideoCard from '../components/VideoCard.jsx';
 import BookCard from '../components/BookCard.jsx';
+import Analytics from '../components/Analytics.jsx';
+import ReviewCard from '../components/ReviewCard.jsx';
 import Contact from '../components/Contact.jsx';
 import useReveal from '../lib/useReveal.js';
-import { getPosts, getServices, getGallery, getVideos, getBooks } from '../lib/api.js';
+import { getPosts, getServices, getGallery, getVideos, getBooks, getReviews } from '../lib/api.js';
 import { useRev, useSite } from '../lib/SiteContext.jsx';
 import { Heading, Lines, cdn, paragraphs } from '../lib/text.jsx';
 
 export default function Home() {
   const site = useSite();
-  const [data, setData] = useState({ posts: [], services: [], gallery: [], videos: [], books: [] });
+  const [data, setData] = useState({ posts: [], services: [], gallery: [], videos: [], books: [], reviews: [] });
   const [error, setError] = useState(false);
+  const [showAll, setShowAll] = useState(false);
 
   const rev = useRev();
   useEffect(() => {
-    Promise.all([getPosts(), getServices(), getGallery(), getVideos(), getBooks()])
-      .then(([posts, services, gallery, videos, books]) => { setData({ posts: posts.slice(0, 3), services, gallery, videos, books }); setError(false); })
+    Promise.all([getPosts(), getServices(), getGallery(), getVideos(), getBooks(), getReviews()])
+      .then(([posts, services, gallery, videos, books, reviews]) => { setData({ posts: posts.slice(0, 3), services, gallery, videos, books, reviews }); setError(false); })
       .catch(() => setError(true));
   }, [rev]);
 
-  useReveal([data]);
+  useReveal([data, showAll]);
 
-  const { about, nursing, work, writing, videos: vSec, moments, books: bSec, marquee, brand } = site;
+  const { about, nursing, work, writing, videos: vSec, moments, books: bSec, reviews: rSec, marquee, brand } = site;
+  const reviewList = showAll ? data.reviews : data.reviews.slice(0, 6);
+  const avgRating = data.reviews.length ? data.reviews.reduce((s, r) => s + r.rating, 0) / data.reviews.length : 0;
   const loop = marquee.length ? [...marquee, ...marquee, ...marquee] : [];
 
   return (
@@ -134,6 +139,30 @@ export default function Home() {
           </div>
         </section>
       )}
+
+      {data.reviews.length > 0 && (
+        <section className="reviews" id="reviews">
+          <div className="wrap">
+            <div className="head head--row reveal">
+              <div>
+                <p className="kicker">{rSec.kicker}</p>
+                <Heading heading={rSec.heading} emphasis={rSec.emphasis} />
+              </div>
+              <p className="reviews__count"><b>{data.reviews.length}</b> book{data.reviews.length === 1 ? '' : 's'} reviewed · <b>{avgRating.toFixed(1)}</b> ★ average</p>
+            </div>
+            <div className="reviews__grid">
+              {reviewList.map((r) => (<ReviewCard key={r.id} review={r} />))}
+            </div>
+            {data.reviews.length > 6 && (
+              <div className="reviews__more">
+                <button type="button" className="btn" onClick={() => setShowAll(!showAll)}>{showAll ? 'Show fewer' : `Show all ${data.reviews.length} reviews`}</button>
+              </div>
+            )}
+          </div>
+        </section>
+      )}
+
+      <Analytics />
 
       <section className="nursing wrap" id="nursing">
         <div className="nursing__copy reveal">

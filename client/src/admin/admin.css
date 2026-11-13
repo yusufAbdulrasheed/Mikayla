@@ -221,3 +221,12 @@ body:has(.adm) { background: var(--a-bg); }
 @keyframes adm-confirm-in { from { opacity: 0; transform: translateY(14px) scale(.96); } }
 @media (max-width: 480px) { .adm-confirm__actions { flex-direction: column-reverse; } .adm-confirm__no, .adm-confirm__yes { width: 100%; } .adm-toast { top: 14px; } }
 @media (prefers-reduced-motion: reduce) { .adm-toast, .adm-confirm, .adm-confirm-back { animation: none !important; } }
+
+.adm-subhead { margin: 18px 0 -6px; padding-top: 18px; border-top: 1px solid var(--a-line); font-size: 17px; font-weight: 800; color: var(--a-hot); }
+.adm-subhead:first-child { margin-top: 0; padding-top: 0; border-top: 0; }
+
+.adm-metrics { display: grid; gap: 8px; padding: 14px; border: 1.5px solid var(--a-line); border-radius: 16px; background: #fffafc; overflow-x: auto; }
+.adm-metrics__row { display: grid; grid-template-columns: 96px repeat(4, minmax(84px, 1fr)); gap: 8px; align-items: center; min-width: 480px; }
+.adm-metrics__row--head b { font-size: 12px; font-weight: 700; color: var(--a-muted, #7d5a6c); }
+.adm-metrics__name { font-weight: 700; font-size: 14px; }
+.adm-metrics input { width: 100%; min-width: 0; }

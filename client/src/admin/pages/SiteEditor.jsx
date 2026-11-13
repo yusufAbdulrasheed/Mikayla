@@ -4,12 +4,13 @@ import { useReloadSite } from '../../lib/SiteContext.jsx';
 import { FieldRenderer, useToast } from '../ui.jsx';
 import { getPath, setPath, settingsTabs } from '../configs.js';
 
-export default function SiteEditor() {
+export default function SiteEditor({ only }) {
+  const tabs = only ? settingsTabs.filter((t) => t.id === only) : settingsTabs.filter((t) => t.id !== 'analytics');
   const toast = useToast();
   const reloadSite = useReloadSite();
   const [saved, setSaved] = useState(null);
   const [draft, setDraft] = useState(null);
-  const [tab, setTab] = useState(settingsTabs[0].id);
+  const [tab, setTab] = useState(tabs[0].id);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState('');
 
@@ -42,13 +43,13 @@ export default function SiteEditor() {
   if (error) return <div className="adm-page"><p className="adm-error">{error}</p></div>;
   if (!draft) return <div className="adm-page"><p className="adm-muted">Loading…</p></div>;
 
-  const current = settingsTabs.find((t) => t.id === tab);
+  const current = tabs.find((t) => t.id === tab);
   return (
     <div className="adm-page">
       <header className="adm-head adm-head--sticky">
         <div>
-          <h1>Website text & cover</h1>
-          <p>Change what visitors read on your website.</p>
+          <h1>{only ? "Social analytics" : "Website text & cover"}</h1>
+          <p>{only ? "Type in the numbers from Instagram, TikTok, X and Medium. Your website shows them as analytics cards." : "Change what visitors read on your website."}</p>
         </div>
         <div className="adm-head__actions">
           {dirty && <span className="adm-pill">Unsaved changes</span>}
@@ -57,7 +58,7 @@ export default function SiteEditor() {
       </header>
 
       <div className="adm-tabs" role="tablist">
-        {settingsTabs.map((t) => (
+        {!only && tabs.map((t) => (
           <button key={t.id} role="tab" aria-selected={t.id === tab} className={t.id === tab ? 'is-active' : ''} onClick={() => setTab(t.id)}>{t.label}</button>
         ))}
       </div>

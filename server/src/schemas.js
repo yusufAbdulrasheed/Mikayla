@@ -67,6 +67,11 @@ export function clean(schema, value) {
 }
 
 const heading = { kicker: t.str(80), heading: t.str(120), emphasis: t.str(120) };
+const count = t.num(0, 100000000000);
+const gain = t.num(-100000000000, 100000000000);
+const metrics = t.obj({ views: count, likes: count, comments: count, gained: gain });
+const rangeSet = t.obj({ instagram: metrics, tiktok: metrics, x: metrics, medium: metrics });
+const platform = t.obj({ handle: t.str(60), followers: count });
 
 export const settingsSchema = t.obj({
   brand: t.obj({ name: t.str(80), first: t.str(40), email: t.str(160) }),
@@ -88,6 +93,8 @@ export const settingsSchema = t.obj({
   videos: t.obj(heading),
   moments: t.obj(heading),
   books: t.obj(heading),
+  reviews: t.obj(heading),
+  analytics: t.obj({ show: t.bool, ...heading, period: t.str(60), instagram: platform, tiktok: platform, x: platform, medium: platform, ranges: t.obj({ d7: rangeSet, d30: rangeSet, d90: rangeSet, y1: rangeSet }) }),
   nursing: t.obj({ ...heading, body: t.text(2000), photo: t.media, label: t.str(60), ctaLabel: t.str(40) }),
   contact: t.obj({ ...heading, text: t.text(500) }),
   footer: t.obj({ note: t.str(160) }),
@@ -118,6 +125,13 @@ export const collections = {
       title: t.str(140), subtitle: t.str(180), description: t.text(1200), cover: t.media,
       status: t.enum(['available', 'coming-soon', 'free']), buyUrl: t.link, file: t.media, fileLabel: t.str(40),
       year: t.str(8), published: t.bool,
+    }),
+  },
+  reviews: {
+    required: ['title'],
+    schema: t.obj({
+      title: t.str(160), author: t.str(120), cover: t.media, rating: t.num(1, 5), genre: t.str(60),
+      reviewedAt: t.date, verdict: t.str(180), review: t.paras, reviewUrl: t.link, published: t.bool,
     }),
   },
 };

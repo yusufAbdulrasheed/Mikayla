@@ -11,6 +11,15 @@ function merge(base, over) {
 }
 
 export async function getSettings() {
-  const saved = await store.getSettingsRaw();
-  return merge(structuredClone(defaultSettings), saved || {});
+  const saved = { ...((await store.getSettingsRaw()) || {}) };
+  const a = saved.analytics;
+  if (a && !a.ranges) {
+    const d30 = {};
+    for (const p of ['instagram', 'tiktok', 'x', 'medium']) {
+      const { views = 0, likes = 0, comments = 0 } = a[p] || {};
+      d30[p] = { views, likes, comments, gained: 0 };
+    }
+    saved.analytics = { ...a, ranges: { d30 } };
+  }
+  return merge(structuredClone(defaultSettings), saved);
 }

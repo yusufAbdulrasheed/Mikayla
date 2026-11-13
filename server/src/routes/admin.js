@@ -35,11 +35,11 @@ router.post('/password', async (req, res, next) => {
 
 router.get('/stats', async (_req, res, next) => {
   try {
-    const [posts, services, gallery, videos, books, messages] = await Promise.all(
-      ['posts', 'services', 'gallery', 'videos', 'books', 'messages'].map((c) => store.list(c))
+    const [posts, services, gallery, videos, books, reviews, messages] = await Promise.all(
+      ['posts', 'services', 'gallery', 'videos', 'books', 'reviews', 'messages'].map((c) => store.list(c))
     );
     res.json({
-      posts: posts.length, services: services.length, gallery: gallery.length, videos: videos.length, books: books.length,
+      posts: posts.length, services: services.length, gallery: gallery.length, videos: videos.length, books: books.length, reviews: reviews.length,
       messages: messages.length, unread: messages.filter((m) => !m.read).length,
     });
   } catch (e) { next(e); }

@@ -19,6 +19,8 @@ const nav = [
   { to: 'photos', icon: '▣', label: 'Photos' },
   { to: 'videos', icon: '▶', label: 'Videos' },
   { to: 'books', icon: '❡', label: 'Books' },
+  { to: 'reviews', icon: '★', label: 'Book reviews' },
+  { to: 'analytics', icon: '◔', label: 'Social analytics' },
   { to: 'services', icon: '✧', label: 'Services' },
   { to: 'messages', icon: '✉', label: 'Messages', badge: true },
   { to: 'media', icon: '⇪', label: 'Media library' },
@@ -66,6 +68,8 @@ function Shell({ onLogout }) {
           <Route path="photos" element={<Collection colKey="gallery" />} />
           <Route path="videos" element={<Collection colKey="videos" />} />
           <Route path="books" element={<Collection colKey="books" />} />
+          <Route path="reviews" element={<Collection colKey="reviews" />} />
+          <Route path="analytics" element={<SiteEditor only="analytics" />} />
           <Route path="services" element={<Collection colKey="services" />} />
           <Route path="messages" element={<Messages onChange={refresh} />} />
           <Route path="media" element={<Media />} />

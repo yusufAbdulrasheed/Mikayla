@@ -45,6 +45,7 @@ export const getServices = () => request('/services');
 export const getGallery = () => request('/gallery');
 export const getVideos = () => request('/videos');
 export const getBooks = () => request('/books');
+export const getReviews = () => request('/reviews');
 export const getVersion = () => request('/version');
 export const sendMessage = (payload) => send('POST', '/contact', payload);
 

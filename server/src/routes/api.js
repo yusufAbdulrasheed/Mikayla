@@ -47,6 +47,12 @@ router.get('/books', async (_req, res, next) => {
   try { res.json(live(await store.list('books'))); } catch (e) { next(e); }
 });
 
+router.get('/reviews', async (_req, res, next) => {
+  try {
+    res.json(live(await store.list('reviews')).sort((a, b) => new Date(b.reviewedAt) - new Date(a.reviewedAt)));
+  } catch (e) { next(e); }
+});
+
 router.post('/contact', rateLimiter(5, 10 * 60 * 1000), async (req, res, next) => {
   try {
     const { name, email, subject, message, website } = req.body || {};
