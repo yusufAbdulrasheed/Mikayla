@@ -54,7 +54,7 @@ export const defaultSettings = {
   videos: { kicker: '04 — On camera', heading: 'Content in', emphasis: 'motion.' },
   moments: { kicker: '05 — The art of everyday', heading: 'A life, in', emphasis: 'little moments.' },
   books: { kicker: '06 — On the shelf', heading: 'Books &', emphasis: 'reading.' },
-  reviews: { kicker: 'Book reviews', heading: 'Books I’ve', emphasis: 'read & reviewed.' },
+  reviews: { kicker: 'Book editing', heading: 'Books I’ve', emphasis: 'edited.' },
   analytics: {
     show: true,
     kicker: 'By the numbers',

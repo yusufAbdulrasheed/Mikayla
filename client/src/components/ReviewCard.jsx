@@ -31,9 +31,9 @@ export default function ReviewCard({ review }) {
         {open && paras.map((p, i) => (<p className="review__text" key={i}>{p}</p>))}
         <div className="review__actions">
           {paras.length > 0 && (
-            <button type="button" className="link-u" aria-expanded={open} onClick={() => setOpen(!open)}>{open ? 'Close review' : 'Read my review'}</button>
+            <button type="button" className="link-u" aria-expanded={open} onClick={() => setOpen(!open)}>{open ? 'Close' : 'Read more'}</button>
           )}
-          {review.reviewUrl && <a className="link-u" href={review.reviewUrl} target="_blank" rel="noreferrer">Full review ↗</a>}
+          {review.reviewUrl && <a className="link-u" href={review.reviewUrl} target="_blank" rel="noreferrer">View the book ↗</a>}
         </div>
       </div>
     </article>

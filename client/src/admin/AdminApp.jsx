@@ -19,7 +19,7 @@ const nav = [
   { to: 'photos', icon: '▣', label: 'Photos' },
   { to: 'videos', icon: '▶', label: 'Videos' },
   { to: 'books', icon: '❡', label: 'Books' },
-  { to: 'reviews', icon: '★', label: 'Book reviews' },
+  { to: 'reviews', icon: '★', label: 'Book editing' },
   { to: 'analytics', icon: '◔', label: 'Social analytics' },
   { to: 'services', icon: '✧', label: 'Services' },
   { to: 'messages', icon: '✉', label: 'Messages', badge: true },

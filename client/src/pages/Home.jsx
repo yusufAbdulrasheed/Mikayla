@@ -29,7 +29,6 @@ export default function Home() {
 
   const { about, nursing, work, writing, videos: vSec, moments, books: bSec, reviews: rSec, marquee, brand } = site;
   const reviewList = showAll ? data.reviews : data.reviews.slice(0, 6);
-  const avgRating = data.reviews.length ? data.reviews.reduce((s, r) => s + r.rating, 0) / data.reviews.length : 0;
   const loop = marquee.length ? [...marquee, ...marquee, ...marquee] : [];
 
   return (
@@ -148,14 +147,14 @@ export default function Home() {
                 <p className="kicker">{rSec.kicker}</p>
                 <Heading heading={rSec.heading} emphasis={rSec.emphasis} />
               </div>
-              <p className="reviews__count"><b>{data.reviews.length}</b> book{data.reviews.length === 1 ? '' : 's'} reviewed · <b>{avgRating.toFixed(1)}</b> ★ average</p>
+              <p className="reviews__count"><b>{data.reviews.length}</b> book{data.reviews.length === 1 ? '' : 's'} edited</p>
             </div>
             <div className="reviews__grid">
               {reviewList.map((r) => (<ReviewCard key={r.id} review={r} />))}
             </div>
             {data.reviews.length > 6 && (
               <div className="reviews__more">
-                <button type="button" className="btn" onClick={() => setShowAll(!showAll)}>{showAll ? 'Show fewer' : `Show all ${data.reviews.length} reviews`}</button>
+                <button type="button" className="btn" onClick={() => setShowAll(!showAll)}>{showAll ? 'Show fewer' : `Show all ${data.reviews.length} books`}</button>
               </div>
             )}
           </div>
