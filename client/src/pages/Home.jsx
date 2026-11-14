@@ -60,6 +60,8 @@ export default function Home() {
         </div>
       </section>
 
+      <Analytics />
+
       {data.services.length > 0 && (
         <section className="work" id="work">
           <div className="wrap">
@@ -160,8 +162,6 @@ export default function Home() {
           </div>
         </section>
       )}
-
-      <Analytics />
 
       <section className="nursing wrap" id="nursing">
         <div className="nursing__copy reveal">
