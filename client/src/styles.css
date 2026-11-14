@@ -414,3 +414,9 @@ button, input, textarea { font: inherit; color: inherit; }
 @keyframes dot-in { from { opacity: 0; transform: scale(0); } }
 .line__x { display: grid; grid-auto-flow: column; grid-auto-columns: 1fr; margin-top: 12px; text-align: center; font-size: 12px; color: var(--muted); }
 .line__x li.is-on { color: var(--magenta); font-weight: 700; }
+
+@media (min-width: 761px) and (max-width: 1100px) {
+  .nav__links { gap: 18px; }
+  .nav__links a { letter-spacing: .08em; font-size: 11px; }
+  .nav__cta { padding-left: 16px; padding-right: 16px; }
+}

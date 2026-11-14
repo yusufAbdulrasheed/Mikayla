@@ -4,6 +4,7 @@ import { useSite } from '../lib/SiteContext.jsx';
 
 const links = [
   { to: '/#about', label: 'About' },
+  { to: '/#analytics', label: 'Analytics' },
   { to: '/#work', label: 'Work' },
   { to: '/writing', label: 'Writing' },
   { to: '/#reviews', label: 'Editing' },
