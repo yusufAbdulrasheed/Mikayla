@@ -109,6 +109,8 @@ export default function Analytics() {
     return { id: r.id, label: r.label, value: valueOf(metric, m) };
   });
   const periodMax = Math.max(...periodBars.map((b) => b.value), 0) || 1;
+  const pts = periodBars.map((b, i) => ({ ...b, x: ((i + 0.5) / periodBars.length) * 100, y: 100 - (Math.max(b.value, 0) / periodMax) * 68 - 8 }));
+  const linePath = pts.map((p, i) => `${i ? 'L' : 'M'} ${p.x} ${p.y}`).join(' ');
 
   const donut = rows.filter((p) => p.followers > 0).map((p) => ({ id: p.id, name: p.name, value: p.followers }));
 
@@ -178,14 +180,26 @@ export default function Analytics() {
           {periodBars.length > 1 && (
             <figure className="chart chart--period reveal">
               <figcaption>{metricName} across time periods</figcaption>
-              <ul className="vbars" key={`p-${metric}`}>
-                {periodBars.map((b) => (
-                  <li key={b.id} className={b.id === active ? 'is-on' : ''}>
-                    <b>{fmtMetric(metric, b.value)}</b>
-                    <span className="vbars__col"><i style={{ height: `${Math.max((Math.abs(b.value) / periodMax) * 100, b.value ? 4 : 0)}%` }} /></span>
-                    <span>{b.label}</span>
-                  </li>
+              <div className="line" key={`p-${metric}`}>
+                <svg viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+                  <defs>
+                    <linearGradient id="lineFill" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="0" stopColor="#b80f6b" stopOpacity=".28" />
+                      <stop offset="1" stopColor="#b80f6b" stopOpacity="0" />
+                    </linearGradient>
+                  </defs>
+                  {[25, 50, 75].map((y) => (<line key={y} x1="0" x2="100" y1={y} y2={y} className="line__grid" />))}
+                  <path d={`${linePath} L ${pts[pts.length - 1].x} 100 L ${pts[0].x} 100 Z`} fill="url(#lineFill)" className="line__area" />
+                  <path d={linePath} pathLength="1" className="line__stroke" />
+                </svg>
+                {pts.map((p) => (
+                  <span key={p.id} className={`line__pt ${p.id === active ? 'is-on' : ''}`} style={{ left: `${p.x}%`, top: `${p.y}%` }}>
+                    <i /><b>{fmtMetric(metric, p.value)}</b>
+                  </span>
                 ))}
+              </div>
+              <ul className="line__x">
+                {pts.map((p) => (<li key={p.id} className={p.id === active ? 'is-on' : ''}>{p.label}</li>))}
               </ul>
               <p className="chart__note">Totals across all platforms. Longer periods naturally add up to more.</p>
             </figure>
